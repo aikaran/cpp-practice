@@ -1,17 +1,17 @@
 #include <iostream>
-
 using namespace std;
 
 void insertionSort(int *arr, int len);
-void printArray(int *, int);
+template < class C >
+ostream& myPrint(ostream& os, C beg, C end) ;
 
 int main(void) {
 	int arr[] = {1, 4, 7, 10, 153, 4, 2356, 263, 2543, 32, 632, 17};
 	int len = sizeof(arr) / sizeof(*arr);
 	
-	printArray(arr, len);
+	myPrint(cout, arr, arr+len);
 	insertionSort(arr, len);
-	printArray(arr, len);
+	myPrint(cout, arr, arr+len);
 	return 0;
 }
 
@@ -26,8 +26,11 @@ void insertionSort(int *arr, int len) {
 	}
 }
 
-void printArray(int *arr, int len) {
-	for(size_t i=0; i<len; ++i)
-		cout << arr[i] << " ";
-	cout << endl;
+template < class C >
+ostream& myPrint(ostream& os, C beg, C end) {
+	for(C it = beg; it != end; ++it) {
+		os << *it << " ";
+	}
+	os << endl;
+	return os;
 }

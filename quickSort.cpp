@@ -2,42 +2,49 @@
 
 using namespace std;
 
+void quickSort(int *, int, int);
+template < class C >
+ostream& myPrint(ostream& os, C beg, C end) ;
+
+int main(void) {
+	int arr[] = {1, 4, 7, 10, 153, 4, 2356, 263, 2543, 32, 632, 17};
+	int len = sizeof(arr) / sizeof(*arr);
+	
+	myPrint(cout, arr, arr+len);
+	quickSort(arr, 0, len-1);
+	myPrint(cout, arr, arr+len);
+	return 0;
+}
+
 void quickSort(int *arr, int first, int last) {
-	int pivot = arr[ (first+last) / 2];
+	int pivot = arr[(first+last)/2];
 	int beg = first, end = last;
 	int temp;
+	
 	do {
 		while(arr[beg] < pivot) beg++;
-		while(arr[end] > pivot) end--;	
+		while(arr[end] > pivot) end--;
 		
-		if( beg <= end) {
-			temp	 = arr[beg];
+		if(beg <= end) {
+			temp = arr[beg];
 			arr[beg] = arr[end];
 			arr[end] = temp;
 			beg++;
 			end--;
 		}
-			
 	} while(beg <= end) ;
 	
-	
-	if(beg  < last)
-		quickSort(arr, beg,   last);
-	if(first< end)
+	if(first < end)
 		quickSort(arr, first, end);
+	if(beg < last)
+		quickSort(arr, beg, last);
 }
 
-void printArray(int *arr, int len) {
-	for(size_t i=0; i<len; ++i)
-		cout << arr[i] << " ";
-	cout << endl;
-}
-
-int main(void) {
-	int arr[] = {5, 3, 1, 7, 9, 10};
-	int len   = sizeof(arr) / sizeof(*arr);
-	
-	quickSort(arr, 0, len-1);
-	printArray(arr, len);
-	return 0;
+template < class C >
+ostream& myPrint(ostream& os, C beg, C end) {
+	for(C it = beg; it != end; ++it) {
+		os << *it << " ";
+	}
+	os << endl;
+	return os;
 }
