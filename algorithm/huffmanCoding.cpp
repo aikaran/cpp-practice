@@ -13,7 +13,7 @@ struct huffmanNode {
 
 struct huffmanNodeComp {
 	bool operator()(const huffmanNode *a, const huffmanNode *b) const {
-		return a->freq < b->freq;
+		return a->freq > b->freq || a->freq == b->freq && a->ch;
 	}
 };
 
@@ -33,14 +33,20 @@ struct huffmanNode *huffmanCoding(priority_queue<huffmanNode *, vector<huffmanNo
 	return retNode;
 }
 
-void printHuffman(struct huffmanNode *node) {
-	if(node->left != NULL) {
+void printHuffman(const struct huffmanNode *node) {
+	if(node == NULL)
+		return;
+	if(node->left != NULL)  {
+		cout << "go left" << endl;
 		printHuffman(node->left);
 	}
-	if(node->right != NULL)
-		printHuffman(node->right);
 	if(node->ch != 0)
 		cout << node->ch << endl;
+	if(node->right != NULL) {
+		cout << "go right" << endl;
+		printHuffman(node->right);
+	}
+	cout << "go up" << endl;
 }
 
 int main(void) {
@@ -53,7 +59,7 @@ int main(void) {
 	huffAry[4].ch = 'e', huffAry[4].freq = 3;
 	
 	for(size_t i=0; i<5; ++i) {
-		myQ.push(&huffAry[i]);
+		myQ.push(huffAry+i);
 	}
 	printHuffman(huffmanCoding(myQ));
 	return 0;
